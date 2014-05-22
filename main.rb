@@ -14,8 +14,8 @@ $conn = ConnectionPool.new(size: 20, timeout: 5) {
 }
 
 $conn.with do |conn|
-  import = Import.new('/tmp/csv')
-  import.do(conn)
+  import = Import.new('/home/bahman/Temp/csv')
+  #import.do(conn)
 end
 
 configure :development? do

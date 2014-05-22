@@ -61,7 +61,7 @@ class Rubadi
   def get_banner()
     $conn.with do |conn|
       top_revenue_banners = get_top_revenue
-      if top_revenue_banners.size >= 5 then
+      if top_revenue_banners.size >= 5
         (top_revenue_banners.shuffle)[0]
       elsif top_revenue_banners.size.between?(1, 4) then
         ((top_revenue_banners +
@@ -71,7 +71,7 @@ class Rubadi
         )[0]
       else
         top_clicks = get_top_clicks_all
-        if top_clicks.size.zero? then
+        if top_clicks.size.zero?
           get_random_banners_no_exclude(5)[0]
         else
           ((top_clicks +
