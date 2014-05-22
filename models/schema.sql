@@ -105,4 +105,29 @@ CREATE INDEX idx_conversions_hour_slice
   USING btree
   (hour_slice);
 
+-- Table: impressions
+
+-- DROP TABLE impressions;
+
+CREATE TABLE impressions
+(
+  banner_id integer,
+  campaign_id integer,
+  hour_slice integer
+)
+WITH (
+OIDS=FALSE
+);
+ALTER TABLE impressions
+OWNER TO rubadi;
+
+-- Index: idx_impressions_campaign_id_hour_slice
+
+-- DROP INDEX idx_impressions_campaign_id_hour_slice;
+
+CREATE INDEX idx_impressions_campaign_id_hour_slice
+ON impressions
+USING btree
+(campaign_id, hour_slice);
+
 

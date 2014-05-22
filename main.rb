@@ -7,8 +7,8 @@ require './models/import'
 
 $conn = ConnectionPool.new(size: 20, timeout: 5) {
   PGconn.connect(
-    :dbname => 'advidi',
-    :user => 'advidi',
+    :dbname => 'rubadi',
+    :user => 'rubadi',
     :password => 'neig2ohS',
     :host => '127.0.0.1')
 }

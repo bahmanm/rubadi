@@ -7,7 +7,11 @@ class Import
           DELETE FROM conversions;',
       :trx_end => 'COMMIT TRANSACTION;',
       :import =>
-       "COPY clicks (click_id, banner_id, campaign_id)
+       "COPY impressions (banner_id, campaign_id)
+        FROM '%{import_dir}/%{hour_slice}/impressions_%{hour_slice}.csv'
+        WITH HEADER CSV DELIMITER ',';
+        UPDATE impressions SET hour_slice=%{hour_slice} WHERE hour_slice IS NULL;
+        COPY clicks (click_id, banner_id, campaign_id)
         FROM '%{import_dir}/%{hour_slice}/clicks_%{hour_slice}.csv'
         WITH HEADER CSV DELIMITER ',';
         UPDATE clicks SET hour_slice=%{hour_slice} WHERE hour_slice IS NULL;
