@@ -19,7 +19,7 @@ Using Apache `ab`
 * **Total time**: ~47 seconds for 15,000 requests
 * **Requests serviced per second**: ~320
 
-You can view the full result in `performance-test-results.txt`.
+You can view the [full results](performance-test-results.txt).
 
 # Softwares Used
 Rubadi as a web application is written with [Sinatra](http://sinatrarb.com/) and
