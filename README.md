@@ -21,7 +21,38 @@ Using Apache `ab`
 
 You can view the [full results](performance-test-results.txt).
 
-# Softwares Used
+# Deployment Strategy #
+Run one Rubadi instance per each core of the server machine. Use nginx to load
+balance the incoming request(s) and serve images for Sinatra.
+
+A sample nginx configuration is as follows. It assumes the server has 2 cores 
+and consequently two Rubadi instances are listening on ports 4600 and 4601.
+
+
+```
+upstream rubadi {
+        server  127.0.0.1:4600;
+        server  127.0.0.1:4601;
+}
+
+server {
+    listen       80;
+    server_name  xyz.example.com rubadi;
+
+    location /images {
+        root /srv/www/static/rubadi;
+    }
+
+    location / {
+        proxy_pass              http://rubadi;
+        proxy_set_header        Host            $host;
+        proxy_set_header        X-Real-IP       $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```
+
+# Softwares Used #
 Rubadi as a web application is written with [Sinatra](http://sinatrarb.com/) and
 uses [eRubis](http://www.kuwata-lab.com/erubis/) to render the view(s). It is 
 backed by the almighty [PostgreSQL](http://postgresql.org) and relies heavily 
