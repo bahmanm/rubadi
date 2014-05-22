@@ -3,6 +3,7 @@ class Import
   @@Q = {
       :trx_begin =>
           'BEGIN TRANSACTION;
+          DELETE FROM impressions;
           DELETE FROM clicks;
           DELETE FROM conversions;',
       :trx_end => 'COMMIT TRANSACTION;',
