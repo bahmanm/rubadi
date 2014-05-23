@@ -1,8 +1,8 @@
 require 'sinatra/reloader' if development?
 
 before do
-  logger.datetime_format = "%Y/%m/%d %H:%M:%S "
-  logger.level = Logger::WARN
+  logger           = Logger.new(STDOUT)
+  logger.level     = Logger::INFO
 end
 
 configure :development? do
