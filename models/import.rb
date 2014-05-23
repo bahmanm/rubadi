@@ -1,4 +1,4 @@
-require_relative "../conf"
+require_relative '../config/database'
 require 'pg'
 
 # Responsible for importing Ad datasets. It is automatically invoked by cron.

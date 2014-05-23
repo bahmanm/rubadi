@@ -1,10 +1,11 @@
 require 'sinatra'
-require 'sinatra/reloader' if development?
 require 'pg'
 require 'connection_pool'
+
 require_relative 'routes'
-require_relative 'models/import'
-require_relative 'conf'
+require_relative 'models/rubadi'
+require_relative 'config/database'
+require_relative 'config/init'
 
 # Initialise the connection pool
 $conn = ConnectionPool.new(size: 20, timeout: 5) {
@@ -14,8 +15,3 @@ $conn = ConnectionPool.new(size: 20, timeout: 5) {
     :password => CONFIG_DBPWD,
     :host => CONFIG_DBHOST)
 }
-
-configure :development? do
-  set :public_folder => File.dirname(__FILE__) + '/static'
-  set :logging => true
-end
