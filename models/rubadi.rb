@@ -1,5 +1,9 @@
 class Rubadi
   @@Q = {
+    :valid_campaign =>
+        "SELECT campaign_id FROM clicks
+        INNER JOIN conversions ON (conversions.click_id = clicks.click_id)
+        WHERE clicks.campaign_id = %{campaign_id}",
     :top_revenue =>
         "SELECT clicks.banner_id
         FROM (SELECT * FROM clicks WHERE campaign_id=%{campaign_id}) AS clicks
@@ -78,6 +82,14 @@ class Rubadi
           ).shuffle
         )[0]
       end
+    end
+  end
+
+  def valid_campaign
+    $conn.with do |conn|
+      rows = conn.exec @@Q[:valid_campaign] %
+           {:campaign_id => @campaign, :hour_slice => @hour_slice}
+      not rows.count.zero?
     end
   end
 

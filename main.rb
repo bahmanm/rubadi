@@ -2,9 +2,9 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'pg'
 require 'connection_pool'
-require './routes'
-require './models/import'
-require './conf'
+require_relative 'routes'
+require_relative 'models/import'
+require_relative 'conf'
 
 $conn = ConnectionPool.new(size: 20, timeout: 5) {
   PGconn.connect(
