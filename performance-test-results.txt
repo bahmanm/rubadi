@@ -2,35 +2,35 @@ Server Software:        nginx/1.4.4
 Server Hostname:        rubadi.bahmanm.com
 Server Port:            80
 
-Document Path:          /campaigns/22
+Document Path:          /campaigns/2
 Document Length:        59 bytes
 
 Concurrency Level:      100
-Time taken for tests:   57.536 seconds
-Complete requests:      8000
+Time taken for tests:   46.470 seconds
+Complete requests:      13000
 Failed requests:        0
 Write errors:           0
-Total transferred:      2480000 bytes
-HTML transferred:       472000 bytes
-Requests per second:    139.04 [#/sec] (mean)
-Time per request:       719.197 [ms] (mean)
-Time per request:       7.192 [ms] (mean, across all concurrent requests)
-Transfer rate:          42.09 [Kbytes/sec] received
+Total transferred:      4030000 bytes
+HTML transferred:       767000 bytes
+Requests per second:    279.75 [#/sec] (mean)
+Time per request:       357.458 [ms] (mean)
+Time per request:       3.575 [ms] (mean, across all concurrent requests)
+Transfer rate:          84.69 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.9      0      10
-Processing:   225  716 206.9    678    2167
-Waiting:      224  716 206.9    677    2167
-Total:        225  716 206.8    678    2168
+Connect:        0   38 260.5      0    7000
+Processing:     6  312 485.3    257   15319
+Waiting:        6  312 485.3    257   15319
+Total:          6  350 542.5    265   15319
 
 Percentage of the requests served within a certain time (ms)
-  50%    678
-  66%    757
-  75%    813
-  80%    853
-  90%    984
-  95%   1113
-  98%   1278
-  99%   1386
- 100%   2168 (longest request)
+  50%    265
+  66%    322
+  75%    364
+  80%    394
+  90%    503
+  95%   1111
+  98%   1297
+  99%   2287
+ 100%  15319 (longest request)

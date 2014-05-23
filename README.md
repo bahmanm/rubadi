@@ -2,22 +2,22 @@
 Rubadi is a simple Ad server in Ruby.
 
 # Status #
-Currently Rubadi has reached [v1.0 milestone](https://github.com/bahmanm/rubadi/issues?milestone=1&state=closed).
+Currently Rubadi has reached [v2.0 milestone](https://github.com/bahmanm/rubadi/issues?milestone=2&state=closed).
 
 # Performance #
 Using Apache `ab`
 
-* **Version in test**: v1.0
+* **Version in test**: v2.0
 * **Test environment (VPS)**:
 - _2 core Pentium 4 CPU_
 - _256MB RAM_
 - _Ruby 2.1.2_
 - _PostgreSQL 9.2.8_
 - _nginx 1.4.4 (serving images)_
-* **Requests per minute**: 8,000
+* **Total number of requests**: 13,000
+* **Total time**: ~48 seconds
 * **Concurrent requests**: 100
-* **Total time**: ~57 seconds for 8,000 requests
-* **Requests serviced per second**: ~140
+* **Requests served per second**: ~278
 
 You can view the [full results](performance-test-results.txt).
 
