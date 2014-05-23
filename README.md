@@ -14,10 +14,10 @@ Using Apache `ab`
 - _Ruby 2.1.2_
 - _PostgreSQL 9.2.8_
 - _nginx 1.4.4 (serving images)_
-* **Requests per minute**: 15,000
+* **Requests per minute**: 8,000
 * **Concurrent requests**: 100
-* **Total time**: ~47 seconds for 15,000 requests
-* **Requests serviced per second**: ~300
+* **Total time**: ~57 seconds for 8,000 requests
+* **Requests serviced per second**: ~140
 
 You can view the [full results](performance-test-results.txt).
 
