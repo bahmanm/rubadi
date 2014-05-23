@@ -1,4 +1,4 @@
-require '../conf'
+require_relative "../conf"
 require 'pg'
 
 # Responsible for importing Ad datasets. It is automatically invoked by cron.
@@ -72,7 +72,7 @@ if run_import? CONFIG_IMPORT_DIR
   conn = PGconn.connect(:dbname => CONFIG_DBNAME, :user => CONFIG_DBUSER,
                         :password => CONFIG_DBPWD, :host => CONFIG_DBHOST)
   importer = Import.new CONFIG_IMPORT_DIR
-  importer.do conn
+  #importer.do conn
   conn.close
   if File.writable? File.dirname CONFIG_IMPORT_DIR
     File.rename CONFIG_IMPORT_DIR, (after_import_name CONFIG_IMPORT_DIR)
