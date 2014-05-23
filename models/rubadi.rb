@@ -1,5 +1,9 @@
 class Rubadi
   @@Q = {
+    :valid_campaign =>
+        "SELECT campaign_id FROM clicks
+        INNER JOIN conversions ON (conversions.click_id = clicks.click_id)
+        WHERE clicks.campaign_id = %{campaign_id}",
     :top_revenue =>
         "SELECT clicks.banner_id
         FROM (SELECT * FROM clicks WHERE campaign_id=%{campaign_id}) AS clicks
@@ -58,28 +62,34 @@ class Rubadi
     @hour_slice = hour_slice(minute)
   end
 
-  def get_banner()
-    $conn.with do |conn|
-      top_revenue_banners = get_top_revenue
-      if top_revenue_banners.size >= 5
-        (top_revenue_banners.shuffle)[0]
-      elsif top_revenue_banners.size.between?(1, 4) then
-        ((top_revenue_banners +
-            get_top_clicks(
-                top_revenue_banners, 5 - top_revenue_banners.size)
+  def get_banner
+    top_revenue_banners = get_top_revenue
+    if top_revenue_banners.size >= 5
+      (top_revenue_banners.shuffle)[0]
+    elsif top_revenue_banners.size.between?(1, 4) then
+      ((top_revenue_banners +
+          get_top_clicks(
+              top_revenue_banners, 5 - top_revenue_banners.size)
+        ).shuffle
+      )[0]
+    else
+      top_clicks = get_top_clicks_all
+      if top_clicks.size.zero?
+        get_random_banners_no_exclude(5)[0]
+      else
+        ((top_clicks +
+            get_random_banners(top_clicks, 5 - top_clicks.size)
           ).shuffle
         )[0]
-      else
-        top_clicks = get_top_clicks_all
-        if top_clicks.size.zero?
-          get_random_banners_no_exclude(5)[0]
-        else
-          ((top_clicks +
-              get_random_banners(top_clicks, 5 - top_clicks.size)
-            ).shuffle
-          )[0]
-        end
       end
+    end
+  end
+
+  def valid_campaign
+    $conn.with do |conn|
+      rows = conn.exec @@Q[:valid_campaign] %
+           {:campaign_id => @campaign, :hour_slice => @hour_slice}
+      not rows.count.zero?
     end
   end
 
