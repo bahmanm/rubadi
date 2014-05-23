@@ -6,9 +6,8 @@ class Rubadi
         "INSERT INTO impressions (banner_id, campaign_id, hour_slice)
         VALUES(%{banner_id}, %{campaign_id}, %{hour_slice})",
     :valid_campaign =>
-        "SELECT campaign_id FROM clicks
-        INNER JOIN conversions ON (conversions.click_id = clicks.click_id)
-        WHERE clicks.campaign_id = %{campaign_id}",
+        "SELECT EXISTS(SELECT campaign_id FROM clicks
+                       WHERE clicks.campaign_id = %{campaign_id})",
     :top_revenue =>
         "SELECT clicks.banner_id
         FROM (SELECT * FROM clicks WHERE campaign_id=%{campaign_id}) AS clicks
@@ -97,7 +96,7 @@ class Rubadi
     $conn.with do |conn|
       rows = conn.exec @@Q[:valid_campaign] %
            {:campaign_id => @campaign, :hour_slice => @hour_slice}
-      not rows.count.zero?
+      rows[0]['exists'] == 't'
     end
   end
 
