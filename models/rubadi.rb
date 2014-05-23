@@ -58,27 +58,25 @@ class Rubadi
     @hour_slice = hour_slice(minute)
   end
 
-  def get_banner()
-    $conn.with do |conn|
-      top_revenue_banners = get_top_revenue
-      if top_revenue_banners.size >= 5
-        (top_revenue_banners.shuffle)[0]
-      elsif top_revenue_banners.size.between?(1, 4) then
-        ((top_revenue_banners +
-            get_top_clicks(
-                top_revenue_banners, 5 - top_revenue_banners.size)
+  def get_banner
+    top_revenue_banners = get_top_revenue
+    if top_revenue_banners.size >= 5
+      (top_revenue_banners.shuffle)[0]
+    elsif top_revenue_banners.size.between?(1, 4) then
+      ((top_revenue_banners +
+          get_top_clicks(
+              top_revenue_banners, 5 - top_revenue_banners.size)
+        ).shuffle
+      )[0]
+    else
+      top_clicks = get_top_clicks_all
+      if top_clicks.size.zero?
+        get_random_banners_no_exclude(5)[0]
+      else
+        ((top_clicks +
+            get_random_banners(top_clicks, 5 - top_clicks.size)
           ).shuffle
         )[0]
-      else
-        top_clicks = get_top_clicks_all
-        if top_clicks.size.zero?
-          get_random_banners_no_exclude(5)[0]
-        else
-          ((top_clicks +
-              get_random_banners(top_clicks, 5 - top_clicks.size)
-            ).shuffle
-          )[0]
-        end
       end
     end
   end
