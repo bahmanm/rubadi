@@ -2,6 +2,9 @@
 # All SQL statements have been only tested on PostgreSQL.
 class Rubadi
   @@Q = {
+    :save_impression =>
+        "INSERT INTO impressions (banner_id, campaign_id, hour_slice)
+        VALUES(%{banner_id}, %{campaign_id}, %{hour_slice})",
     :valid_campaign =>
         "SELECT campaign_id FROM clicks
         INNER JOIN conversions ON (conversions.click_id = clicks.click_id)
@@ -95,6 +98,17 @@ class Rubadi
       rows = conn.exec @@Q[:valid_campaign] %
            {:campaign_id => @campaign, :hour_slice => @hour_slice}
       not rows.count.zero?
+    end
+  end
+
+  # Saves an impression.
+  # Params:
+  # +banner_id+:: banner id
+  def save_impression(banner_id)
+    $conn.with do |conn|
+      rows = conn.exec @@Q[:save_impression] %
+           {:campaign_id => @campaign, :hour_slice => @hour_slice,
+            :banner_id => banner_id}
     end
   end
 
