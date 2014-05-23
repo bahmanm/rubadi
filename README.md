@@ -10,7 +10,7 @@ Using Apache `ab`
 * **Version in test**: v1.0
 * **Test environment (VPS)**:
 - _2 core Pentium 4 CPU_
-- _512MB RAM_
+- _256MB RAM_
 - _Ruby 2.1.2_
 - _PostgreSQL 9.2.8_
 - _nginx 1.4.4 (serving images)_
