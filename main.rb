@@ -6,6 +6,7 @@ require_relative 'routes'
 require_relative 'models/import'
 require_relative 'conf'
 
+# Initialise the connection pool
 $conn = ConnectionPool.new(size: 20, timeout: 5) {
   PGconn.connect(
     :dbname => CONFIG_DBNAME,

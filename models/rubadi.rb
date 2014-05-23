@@ -1,3 +1,5 @@
+# Model class of Rubadi
+# All SQL statements have been only tested on PostgreSQL.
 class Rubadi
   @@Q = {
     :valid_campaign =>
@@ -47,6 +49,7 @@ class Rubadi
                           FROM pg_class where relname='clicks') LIMIT %{limit}"
   }
 
+  # Finds the hour slice of a minute.
   def hour_slice(min)
     case min
       when 0..15 then 1
@@ -62,6 +65,7 @@ class Rubadi
     @hour_slice = hour_slice(minute)
   end
 
+  # Finds the banner for a campaign.
   def get_banner
     top_revenue_banners = get_top_revenue
     if top_revenue_banners.size >= 5
@@ -85,6 +89,7 @@ class Rubadi
     end
   end
 
+  # Checks whether a campaign exists or not.
   def valid_campaign
     $conn.with do |conn|
       rows = conn.exec @@Q[:valid_campaign] %
@@ -95,6 +100,7 @@ class Rubadi
 
   private
 
+  # Finds the banners of a campaign with highest revenues.
   def get_top_revenue
     $conn.with do |conn|
       rows = conn.exec @@Q[:top_revenue] %
@@ -103,6 +109,7 @@ class Rubadi
     end
   end
 
+  # Finds the banners of a campaign with highest click counts.
   def get_top_clicks(excludes, limit)
     $conn.with do |conn|
       puts excludes.to_s
@@ -113,6 +120,7 @@ class Rubadi
     end
   end
 
+  # Finds the banners with highest click counts.
   def get_top_clicks_all
     $conn.with do |conn|
       rows = conn.exec @@Q[:top_clicks_all] %
@@ -121,6 +129,10 @@ class Rubadi
     end
   end
 
+  # Finds random banners
+  # Params:
+  # +excludes+:: Exclude from banner list when searching
+  # +limit+:: How many banners to find
   def get_random_banners(excludes, limit)
     $conn.with do |conn|
       rows = conn.exec @@Q[:random] %
@@ -129,6 +141,7 @@ class Rubadi
     end
   end
 
+  # Finds random banners
   def get_random_banners_no_exclude(limit)
     $conn.with do |conn|
       rows = conn.exec @@Q[:random] % {:limit => limit}
