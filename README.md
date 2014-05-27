@@ -2,22 +2,22 @@
 Rubadi is a simple Ad server in Ruby.
 
 # Status #
-Currently Rubadi has reached [v2.0 milestone](https://github.com/bahmanm/rubadi/issues?milestone=2&state=closed).
+Currently Rubadi has reached [v2.1 milestone](https://github.com/bahmanm/rubadi/issues?milestone=3&page=1&state=closed) (primarily a maintenance release over [v2.0](https://github.com/bahmanm/rubadi/issues?milestone=2&state=closed))
 
 # Performance #
 Using Apache `ab`
 
-* **Version in test**: v2.0
+* **Version in test**: v2.1
 * **Test environment (VPS)**:
 - _2 core Pentium 4 CPU_
 - _256MB RAM_
 - _Ruby 2.1.2_
 - _PostgreSQL 9.2.8_
 - _nginx 1.4.4 (serving images)_
-* **Total number of requests**: 13,000
-* **Total time**: ~48 seconds
+* **Total number of requests**: 15,000
+* **Total time**: ~41 seconds
 * **Concurrent requests**: 100
-* **Requests served per second**: ~278
+* **Requests served per second**: ~364
 
 You can view the [full results](performance-test-results.txt).
 
@@ -25,7 +25,7 @@ You can view the [full results](performance-test-results.txt).
 Run one Rubadi instance per each core of the server machine. Use nginx to load
 balance the incoming request(s) and serve images for Sinatra.
 
-A sample nginx configuration is as follows. It assumes the server has 2 cores 
+A sample nginx configuration is as follows. It assumes the server has 2 cores
 and consequently two Rubadi instances are listening on ports 4600 and 4601.
 
 
@@ -56,8 +56,8 @@ server {
 
 ## Softwares Used ##
 Rubadi as a web application is written with [Sinatra](http://sinatrarb.com/) and
-uses [eRubis](http://www.kuwata-lab.com/erubis/) to render the view(s). It is 
-backed by the almighty [PostgreSQL](http://postgresql.org) and relies heavily 
+uses [eRubis](http://www.kuwata-lab.com/erubis/) to render the view(s). It is
+backed by the almighty [PostgreSQL](http://postgresql.org), use [Redis](http://redis.io) as cache and relies heavily
 on [connection pooling](https://github.com/mperham/connection_pool) to achieve
 high throughput.
 
@@ -67,7 +67,8 @@ Here's a list of main gems (excluding deps):
 * sinatra 1.4.5
 * sinatra-contrib 1.4.2
 * connection_pool 2.0.0
-* pg 0.17.1 
+* pg 0.17.1
+* redis 3.0.7
 
 ## Reasons Behind the Software Stack ##
 
@@ -81,12 +82,12 @@ The reason for choosing PostgreSQL is that I've been using it for the past 8
 years; it is feature-rich, stable, fast and very light-weight --perfect fit for
 a VPS. I also know the internals and administration of PostgreSQL very well.
 
-And considering Rubadi's data model and the type of queries it has to service 
+And considering Rubadi's data model and the type of queries it has to service
 fast, I don't believe a NoSQL database would be more efficient that PG.
 
 ### No ORM ###
 With regards to Rubadi's data model and high volume of queries it has to serve,
-I'm certain no ORM in this universe (or even parallel universes) can produce 
+I'm certain no ORM in this universe (or even parallel universes) can produce
 better optimum SQL than me. Rubadi's performance test results prove this claim!
 
 ### Connection Pooling ###
