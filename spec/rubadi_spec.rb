@@ -22,13 +22,15 @@ describe 'Rubadi' do
   end
 
   it 'should not return duplicate images for valid campaigns' do
-    get "/campaigns/#{(VALID_CAMPAIGN_IDS.shuffle)[0]}"
-    resp1 = last_response.body
-    get "/campaigns/#{(VALID_CAMPAIGN_IDS.shuffle)[0]}"
-    resp2 = last_response.body
-    get "/campaigns/#{(VALID_CAMPAIGN_IDS.shuffle)[0]}"
-    resp3 = last_response.body
-    resp1.should_not eq(resp2) or resp1.should_not eq(resp3)
+    campaign_id = (VALID_CAMPAIGN_IDS.shuffle)[0]
+    result = 1.upto(100).collect { |i| 
+      get "/campaigns/#{campaign_id}#"
+      last_response.body
+    }.reduce(false) { |result, body| 
+      if result == true then true
+      else result == body ? true : body end
+    }
+    result.should_not eq(true)
   end
 
   it 'should return 404 for non-numeric campaigns' do

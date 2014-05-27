@@ -5,9 +5,12 @@ require_relative 'models/rubadi'
 get '/campaigns/:campaign_id' do
   campaign_id = params[:campaign_id]
   if campaign_id[/^\d+$/] and not campaign_id.to_i.zero?
-    model = Rubadi.new campaign_id, Time.now.min
+    model = Model::Rubadi.new campaign_id, Time.now.min
     if model.valid_campaign
-      banner_id = model.get_banner
+      key = build_key(request, campaign_id)
+      visited = $cache.get build_key(request, campaign_id)
+      banner_id = model.get_banner visited
+      $cache.set key, banner_id
       model.save_impression banner_id
       erb :index, :locals => {:banner => url("/images/image_#{banner_id}.png") }
     else
@@ -18,3 +21,10 @@ get '/campaigns/:campaign_id' do
   end
 end
 
+# Builds a key to store the banner_id in cache.
+# Params:
+# +request+: HTTP request
+# +campaing_id+: campaign_id
+def build_key(request, campaign_id)
+  "#{request.host}__#{request.ip}__#{request.user_agent}__#{campaign_id}"
+end
