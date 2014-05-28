@@ -6,31 +6,31 @@ Document Path:          /campaigns/1
 Document Length:        59 bytes
 
 Concurrency Level:      100
-Time taken for tests:   41.233 seconds
+Time taken for tests:   38.756 seconds
 Complete requests:      15000
 Failed requests:        0
 Write errors:           0
 Total transferred:      4635000 bytes
 HTML transferred:       885000 bytes
-Requests per second:    363.79 [#/sec] (mean)
-Time per request:       274.886 [ms] (mean)
-Time per request:       2.749 [ms] (mean, across all concurrent requests)
-Transfer rate:          109.78 [Kbytes/sec] received
+Requests per second:    387.04 [#/sec] (mean)
+Time per request:       258.373 [ms] (mean)
+Time per request:       2.584 [ms] (mean, across all concurrent requests)
+Transfer rate:          116.79 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    1   2.4      0      31
-Processing:    34  273  75.1    277     561
-Waiting:       34  273  75.1    277     560
-Total:         34  274  75.0    278     561
+Connect:        0    1   1.7      0      29
+Processing:    21  257  77.5    256     615
+Waiting:       21  257  77.5    256     615
+Total:         21  258  77.4    257     618
 
 Percentage of the requests served within a certain time (ms)
-  50%    278
-  66%    301
-  75%    322
-  80%    334
-  90%    370
-  95%    398
-  98%    432
-  99%    460
- 100%    561 (longest request)
+  50%    257
+  66%    284
+  75%    305
+  80%    320
+  90%    355
+  95%    389
+  98%    424
+  99%    440
+ 100%    618 (longest request)

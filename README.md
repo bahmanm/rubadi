@@ -15,9 +15,9 @@ Using Apache `ab`
 - _PostgreSQL 9.2.8_
 - _nginx 1.4.4 (serving images)_
 * **Total number of requests**: 15,000
-* **Total time**: ~41 seconds
+* **Total time**: ~39 seconds
 * **Concurrent requests**: 100
-* **Requests served per second**: ~364
+* **Requests served per second**: ~387
 
 You can view the [full results](performance-test-results.txt).
 
