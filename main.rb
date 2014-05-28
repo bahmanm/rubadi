@@ -17,4 +17,4 @@ $conn = ConnectionPool.new(size: 20, timeout: 5) {
     :host => CONFIG_DBHOST)
 }
 # Initialise Redis cache
-$cache = Redis.new(:driver => :hiredis)
+$redis = Redis.new(:driver => :hiredis)

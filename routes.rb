@@ -6,11 +6,12 @@ get '/campaigns/:campaign_id' do
   campaign_id = params[:campaign_id]
   if campaign_id[/^\d+$/] and not campaign_id.to_i.zero?
     model = Model::Rubadi.new campaign_id, Time.now.min
+    cache = Model::Cache.new
     if model.valid_campaign
       key = build_key(request, campaign_id)
-      visited = $cache.get build_key(request, campaign_id)
-      banner_id = model.get_banner visited
-      $cache.set key, banner_id
+      visited = cache.get key
+      banner_id = model.get_banner exclude=visited
+      cache.set key, banner_id
       model.save_impression banner_id
       erb :index, :locals => {:banner => url("/images/image_#{banner_id}.png") }
     else

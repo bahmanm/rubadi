@@ -18,8 +18,7 @@ module Model
           WHERE clicks.campaign_id = %{campaign_id} AND
                 clicks.hour_slice = %{hour_slice} AND
                 clicks.banner_id <> %{exclude}
-          ORDER BY conversions.revenue DESC
-          LIMIT 10",
+          ORDER BY conversions.revenue DESC",
       :top_clicks =>
           "SELECT banner_id, COUNT(banner_id)
           FROM (
@@ -57,6 +56,8 @@ module Model
     }
 
     # Finds the hour slice of a minute.
+    # Params:
+    # +min+:: Minutes of an hour; between 0 and 59.
     def hour_slice(min)
       case min
         when 0..15 then 1
@@ -73,25 +74,24 @@ module Model
     end
 
     # Finds the banner for a campaign.
+    # Params:
+    # +exclude+:: banner_id to exclude from search.
     def get_banner(exclude)
       top_revenue_banners = get_top_revenue exclude
       if top_revenue_banners.size >= 5
-        (top_revenue_banners.shuffle)[0]
+        top_revenue_banners.shuffle[0]
       elsif top_revenue_banners.size.between?(1, 4) then
-        ((top_revenue_banners +
-            get_top_clicks(
-                top_revenue_banners, 5 - top_revenue_banners.size)
-          ).shuffle
-        )[0]
+        (top_revenue_banners +
+          get_top_clicks(top_revenue_banners, 5 - top_revenue_banners.size)
+        ).shuffle[0]
       else
         top_clicks = get_top_clicks_all exclude
         if top_clicks.size.zero?
           get_random_banners_no_exclude(5, exclude)[0]
         else
-          ((top_clicks +
-              get_random_banners(top_clicks, 5 - top_clicks.size)
-            ).shuffle
-          )[0]
+          (top_clicks +
+            get_random_banners(top_clicks, 5 - top_clicks.size)
+          ).shuffle[0]
         end
       end
     end
@@ -184,15 +184,20 @@ module Model
   # Caching mechanism for Rubadi using Redis.
   class Cache
 
-    # Fetches the cached value for a given campaign_id, host and browser.
+    # Fetches the cached banner_id for a given campaign_id, host and browser.
+    # Params:
+    # +key+:: key
     def get(key)
-      value = $redis.get("#{campaign_id}_#{host}_#{browser}")
-      !value ? -1 : value
+      banner_id = $redis.get key
+      !banner_id ? -1 : banner_id
     end
 
     # Caches a value for a given campaign_id, host and browser.
-    def set(campaign_id, key)
-      $redis.set("#{campaign_id}_#{host}_#{browser}", value)
+    # Params:
+    # +key+:: key
+    # +banner_id+:: banner_id
+    def set(key, banner_id)
+      $redis.set key, banner_id
     end
 
   end

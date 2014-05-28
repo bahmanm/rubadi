@@ -15,18 +15,19 @@ describe 'Rubadi' do
     last_response.status.should eq(404)
   end
 
-  it 'should return banner link for valid campaigns' do
+  it 'should return one banner link for valid campaigns' do
     get "/campaigns/#{(VALID_CAMPAIGN_IDS.shuffle)[0]}"
     last_response.should be_ok
     last_response.body.should include 'images'
+    last_response.body.scan(/\/images\//).count.should eq(1)
   end
 
   it 'should not return duplicate images for valid campaigns' do
     campaign_id = (VALID_CAMPAIGN_IDS.shuffle)[0]
-    result = 1.upto(100).collect { |i| 
+    result = 1.upto(100).collect { |i|
       get "/campaigns/#{campaign_id}#"
       last_response.body
-    }.reduce(false) { |result, body| 
+    }.reduce(false) { |result, body|
       if result == true then true
       else result == body ? true : body end
     }
@@ -38,7 +39,7 @@ describe 'Rubadi' do
     last_response.status.should eq(404)
   end
 
-  it 'should return 404 for any URL not for "campaigns" resource' do
+  it 'should return 404 for any URL other than "campaigns" resource' do
     get '/foobar'
     last_response.status.should eq(404)
   end
